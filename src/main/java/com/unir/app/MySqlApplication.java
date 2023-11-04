@@ -15,6 +15,7 @@ public class MySqlApplication {
 
     public static void main(String[] args) {
 
+        //Configuramos Logback para que muestre las sentencias SQL que se ejecutan unicamente.
         LogbackConfig.configureLogbackForHibernateSQL();
 
         //Try-with-resources. Se cierra la conexión automáticamente al salir del bloque try
@@ -26,9 +27,11 @@ public class MySqlApplication {
             EmployeesDao employeesDao = new EmployeesDao(session);
             DepartmentsDao departmentsDao = new DepartmentsDao(session);
 
+            //Obtenemos todos los empleados de la base de datos
             List<Employee> employees = employeesDao.findByDepartment("d001");
             log.info("Empleados del departamento d001: {}", employees.size());
 
+            //Insertamos un nuevo empleado. Save por defecto no actualiza, solo inserta.
             Department bbddDepartment = new Department();
             bbddDepartment.setDeptName("Database Department");
             bbddDepartment.setDeptNo("d010");

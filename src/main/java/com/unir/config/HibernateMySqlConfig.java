@@ -7,12 +7,15 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
-
 import java.util.Properties;
 
 @Slf4j
 public class HibernateMySqlConfig {
+
+    // Factoría de sesiones de Hibernate
     private static SessionFactory sessionFactory;
+
+    // Nombre de la base de datos
     private static final String DATABASE = "employees";
 
     public static SessionFactory getSessionFactory() {
