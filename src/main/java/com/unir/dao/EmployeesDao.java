@@ -1,16 +1,12 @@
 package com.unir.dao;
 
-import com.unir.model.mysql.Department;
-import com.unir.model.mysql.DeptEmployee;
 import com.unir.model.mysql.Employee;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Set;
 
 @AllArgsConstructor
 @Slf4j
@@ -43,9 +39,30 @@ public class EmployeesDao {
                 "FROM employees.employees e\n" +
                 "JOIN employees.dept_emp de ON e.emp_no = de.emp_no\n" +
                 "JOIN employees.departments d ON de.dept_no = d.dept_no\n" +
-                "WHERE d.dept_no = :deptNo ;", Employee.class);
+                "WHERE d.dept_no = :deptNo", Employee.class);
         query.setParameter("deptNo", departmentId);
         return query.list();
+    }
+
+    /**
+     * Obtención de un empleado por su identificador.
+     * @param id - Identificador del empleado.
+     * @return Empleado.
+     * @throws SQLException - Excepción en caso de error.
+     */
+    public Employee getById(Integer id) throws SQLException {
+        return session.get(Employee.class, id);
+    }
+
+    /**
+     * Elimina un empleado de la base de datos.
+     * @param employee - Empleado a eliminar.
+     * @return true si se ha eliminado correctamente.
+     * @throws SQLException - Excepción en caso de error.
+     */
+    public Boolean remove(Employee employee) throws SQLException {
+        session.remove(employee);
+        return true;
     }
 
 }

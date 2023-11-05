@@ -27,16 +27,35 @@ public class MySqlApplication {
             EmployeesDao employeesDao = new EmployeesDao(session);
             DepartmentsDao departmentsDao = new DepartmentsDao(session);
 
-            //Obtenemos todos los empleados de la base de datos
+            //Ejemplo de uso de DAO 1: Obtenemos todos los empleados de la base de datos
             List<Employee> employees = employeesDao.findByDepartment("d001");
             log.info("Empleados del departamento d001: {}", employees.size());
 
-            //Insertamos un nuevo empleado. Save por defecto no actualiza, solo inserta.
+            //Ejemplo de uso de DAO 2: Insertamos un nuevo empleado. Save por defecto no actualiza, solo inserta.
             Department bbddDepartment = new Department();
             bbddDepartment.setDeptName("Database Department");
             bbddDepartment.setDeptNo("d010");
             //departmentsDao.save(bbddDepartment);
             //log.info("Departamento insertado: {}", bbddDepartment);
+
+            //Ejemplo de uso de DAO 3: La actualizacion ocurre cuando modificamos un objeto que ya existe en la base de datos (Entity Manager controla su ciclo de vida)
+            //Lo recuperamos de la base de datos.
+            //Lo modificamos.
+            session.beginTransaction();
+            log.info("Obteniendo jesus");
+            Employee jesus = employeesDao.getById(1001);
+            jesus.setFirstName(("J" + System.currentTimeMillis()));
+            log.info("jesus modificado");
+            //Al hacer commit de la transaccion se actualiza el objeto en la base de datos sin hacer un update explicito (EM controla el ciclo de vida del objeto)
+            session.getTransaction().commit();
+
+            //Ejemplo de uso de DAO 4: Eliminamos un empleado
+            session.beginTransaction();
+            //Eliminamos un empleado
+            employeesDao.remove(jesus);
+            jesus = employeesDao.getById(1001);
+            //Hacemos rollback para que no se aplique la eliminación
+            session.getTransaction().rollback();
 
         } catch (Exception e) {
             log.error("Error al tratar con la base de datos", e);
