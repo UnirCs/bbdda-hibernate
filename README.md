@@ -2,30 +2,28 @@
 
 ## Descripción
 
-Este proyecto se centra en el aprendizaje de Hibernate en conjunto con JDBC para interactuar con una base de datos MySQL u Oracle 19c. Permite realizar operaciones básicas sobre algunas de las tablas de los schemas de ejemplo `employees` de MySQL y `hr` de Oracle 19c.
+Este proyecto se centra en el aprendizaje de Hibernate en conjunto con JDBC para interactuar con una base de datos MySQL . Permite realizar operaciones básicas sobre algunas de las tablas de los schemas de ejemplo `employees` de MySQL.
 
 ## Características
 
-- **Conexión a Base de Datos**: Establece conexión con bases de datos MySQL y Oracle 19c utilizando JDBC.
-- **Lectura de datos**: Permite obtener información de las tablas de los schemas `employees` de MySQL y `hr` de Oracle 19c.
-- **Escritura de datos**: Permite escribir información en algunas de la tablas, ya sea de forma directa o a través de ficheros CSV usando la librería [OpenCSV](https://www.baeldung.com/opencsv).
-- **Batch Processing**: Optimiza las operaciones de inserción y actualización utilizando batch processing.
+- **Conexión a Base de Datos**: Establece conexión con bases de datos MySQL utilizando Hibernate y JDBC.
+- **Uso de anotaciones de JPA**: Modelaremos varias entidades del schema `employees` de MySQL usando las anotaciones de JPA.
+- **Transacciones**: Realiza operaciones de lectura y escritura en la base de datos.
 
 ## Tecnologías Utilizadas
 
 - Java
 - Maven
 - MySQL
-- Oracle 19c
+- Hibernate
 - JDBC
 - Lombok
-- OpenCSV
 
 ## Requisitos
 
 - Java 21
 - Maven
-- Sería recomendable disponer de contenedores Docker con MySQL y Oracle 19c para realizar pruebas locales.
+- Sería recomendable disponer de contenedores Docker con MySQL para realizar pruebas locales.
 
 ## Configuración y uso
 
