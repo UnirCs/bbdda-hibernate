@@ -5,10 +5,12 @@ import com.unir.config.LogbackConfig;
 import com.unir.dao.DepartmentsDao;
 import com.unir.dao.EmployeesDao;
 import com.unir.model.mysql.Department;
+import com.unir.model.mysql.DeptEmployee;
 import com.unir.model.mysql.Employee;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 public class MySqlApplication {
@@ -31,7 +33,7 @@ public class MySqlApplication {
             List<Employee> employees = employeesDao.findByDepartment("d001");
             log.info("Empleados del departamento d001: {}", employees.size());
 
-            //Ejemplo de uso de DAO 2: Insertamos un nuevo empleado. Save por defecto no actualiza, solo inserta.
+            //Ejemplo de uso de DAO 2: Insertamos un nuevo departamento. Save por defecto no actualiza, solo inserta.
             Department bbddDepartment = new Department();
             bbddDepartment.setDeptName("Database Department");
             bbddDepartment.setDeptNo("d010");
@@ -56,6 +58,23 @@ public class MySqlApplication {
             jesus = employeesDao.getById(1001);
             //Hacemos rollback para que no se aplique la eliminación
             session.getTransaction().rollback();
+
+            session.beginTransaction();
+            log.info("Obteniendo Roberto");
+            Employee roberto = employeesDao.getById(1002);
+            Set<DeptEmployee> deptEmployee = roberto.getDeptEmployees();
+            // Asegurarse de que la colección esté inicializada
+            deptEmployee.size(); // Acceder a la colección para inicializarla, ya que si no Hibernate no la cargará
+
+            employeesDao.remove(roberto);
+            log.info("Roberto eliminado");
+            session.getTransaction().commit();
+
+            //Insertamos de nuevo a Roberto
+            session.beginTransaction();
+            employeesDao.save(new Employee(roberto.getEmpNo(), roberto.getBirthDate(), roberto.getFirstName(), roberto.getLastName(), roberto.getGender(), roberto.getHireDate(), deptEmployee));
+            session.getTransaction().commit();
+            log.info("Roberto insertado de nuevo");
 
         } catch (Exception e) {
             log.error("Error al tratar con la base de datos", e);

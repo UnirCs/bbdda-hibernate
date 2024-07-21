@@ -65,4 +65,15 @@ public class EmployeesDao {
         return true;
     }
 
+    /**
+     * Inserta un nuevo empleado en la base de datos.
+     * @param employee - Empleado a insertar.
+     * @return Empleado insertado.
+     * @throws SQLException - Excepción en caso de error.
+     */
+    public Employee save(Employee employee) throws SQLException {
+        session.persist(employee);
+        return employee;
+    }
+
 }

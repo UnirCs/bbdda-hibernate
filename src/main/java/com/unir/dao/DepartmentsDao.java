@@ -37,9 +37,7 @@ public class DepartmentsDao {
      * @throws SQLException Excepción en caso de error
      */
     public Department save(Department department) throws SQLException {
-        session.beginTransaction();
         session.persist(department);
-        session.getTransaction().commit();
         return department;
     }
 }
