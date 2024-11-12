@@ -16,7 +16,7 @@ public class EmployeesDao {
 
     /**
      * Consulta de todos los empleados de la base de datos
-     * Se ofrecen dos versiones
+     * Se puede hacer de dos formas:
      * 1. Con SQL nativo
      * 2. Con HQL: https://docs.jboss.org/hibernate/orm/3.5/reference/es-ES/html/queryhql.html
      * @throws SQLException Excepción en caso de error
@@ -73,6 +73,26 @@ public class EmployeesDao {
      */
     public Employee save(Employee employee) throws SQLException {
         session.persist(employee);
+        return employee;
+    }
+
+    /**
+     * Inserta un nuevo empleado en la base de datos si no existe.
+     * Si existe, actualiza el empleado.
+     *
+     * Utilizamos la operacion merge de la sesion de Hibernate.
+     * Merge de Hibernate funciona de la siguiente forma:
+     * 1. Se comprueba que la entidad no exista en la sesion de Hibernate.
+     * 2. Se hace una consulta a la base de datos para comprobar si la entidad existe.
+     * 3. Si no existe, se inserta.
+     * 4. Si existe, se actualiza.
+     *
+     * @param employee Empleado a insertar o actualizar
+     * @return Empleado insertado o actualizado
+     * @throws SQLException Excepción en caso de error
+     */
+    public Employee saveOrUpdate(Employee employee) throws SQLException {
+        session.merge(employee);
         return employee;
     }
 

@@ -9,6 +9,8 @@ import com.unir.model.mysql.DeptEmployee;
 import com.unir.model.mysql.Employee;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
+
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
@@ -35,12 +37,19 @@ public class MySqlApplication {
 
             //Ejemplo de uso de DAO 2: Insertamos un nuevo departamento. Save por defecto no actualiza, solo inserta.
             Department bbddDepartment = new Department();
-            bbddDepartment.setDeptName("Database Department");
+            bbddDepartment.setDeptName("Database Departmentt");
             bbddDepartment.setDeptNo("d010");
-            //departmentsDao.save(bbddDepartment);
-            //log.info("Departamento insertado: {}", bbddDepartment);
 
-            //Ejemplo de uso de DAO 3: La actualizacion ocurre cuando modificamos un objeto que ya existe en la base de datos (Entity Manager controla su ciclo de vida)
+            //OJO! Las operaciones de escritura se deben hacer DENTRO de una transacción
+            try {
+                //departmentsDao.save(bbddDepartment);
+                departmentsDao.saveOrUpdate(bbddDepartment);
+                log.info("Departamento insertado o actualizado: {}", bbddDepartment);
+            } catch (Exception e) {
+                log.error("Error al insertar el departamento", e);
+            }
+
+            //Ejemplo de uso de DAO 3: La actualizacion ocurre cuando modificamos un objeto que ya existe en la base de datos (Entity Manager controla su ciclo de vida) y hacemos commit
             //Lo recuperamos de la base de datos.
             //Lo modificamos.
             session.beginTransaction();

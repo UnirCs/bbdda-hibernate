@@ -17,6 +17,9 @@ public class DepartmentsDao {
 
     /**
      * Consulta de todos los departamentos de la base de datos
+     * * Se puede hacer de dos formas:
+     * * 1. Con SQL nativo
+     * * 2. Con HQL: https://docs.jboss.org/hibernate/orm/3.5/reference/es-ES/html/queryhql.html
      * @return Lista de departamentos
      * @throws SQLException Excepción en caso de error
      */
@@ -38,6 +41,26 @@ public class DepartmentsDao {
      */
     public Department save(Department department) throws SQLException {
         session.persist(department);
+        return department;
+    }
+
+    /**
+     * Inserta un nuevo departamento en la base de datos si no existe.
+     * Si existe, actualiza el departamento.
+     *
+     * Utilizamos la operacion merge de la sesion de Hibernate.
+     * Merge de Hibernate funciona de la siguiente forma:
+     * 1. Se comprueba que la entidad no exista en la sesion de Hibernate.
+     * 2. Se hace una consulta a la base de datos para comprobar si la entidad existe.
+     * 3. Si no existe, se inserta.
+     * 4. Si existe, se actualiza.
+     *
+     * @param department Departamento a insertar o actualizar
+     * @return Departamento insertado o actualizado
+     * @throws SQLException Excepción en caso de error
+     */
+    public Department saveOrUpdate(Department department) throws SQLException {
+        session.merge(department);
         return department;
     }
 }
