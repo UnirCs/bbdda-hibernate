@@ -11,6 +11,7 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+// Necesitamos implementar Serializable para que Hibernate pueda serializar y deserializar la clase
 public class DeptEmployeeId implements Serializable {
 
     private Integer empNo;

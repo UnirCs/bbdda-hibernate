@@ -40,6 +40,11 @@ public class MySqlApplication {
             bbddDepartment.setDeptName("Database Departmentt");
             bbddDepartment.setDeptNo("d010");
 
+            //Ejemplo de uso de DAO 2.1: Obtenemos un departamento de la base de datos
+            Department bbddDepartment2 = departmentsDao.findById("d002");
+            log.info("Departamento d002: {}", bbddDepartment2);
+            log.info("Empleados del departamento d002: {}", bbddDepartment2.getDeptEmployees().size());
+
             //OJO! Las operaciones de escritura se deben hacer DENTRO de una transacción
             try {
                 //departmentsDao.save(bbddDepartment);

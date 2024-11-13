@@ -34,6 +34,16 @@ public class DepartmentsDao {
     }
 
     /**
+     * Consulta de un departamento por su identificador.
+     * @param id Identificador del departamento
+     * @return Departamento
+     * @throws SQLException Excepción en caso de error
+     */
+    public Department findById(String id) throws SQLException {
+        return session.get(Department.class, id);
+    }
+
+    /**
      * Inserta un nuevo departamento en la base de datos.
      * @param department Departamento a insertar
      * @return Departamento insertado
